@@ -4,18 +4,22 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 
 public class ActivitiEngineFixture {
+  private final ProcessEngine processEngine;
+
   /**
-   * Get a pre configured process engine for test purposes.
-   * @return processEngine ProcessEngine
+   * Create activiti process engine with in memory database
+   * for test purposes.
    */
-  public static ProcessEngine processEngine() {
-    ProcessEngine processEngine = ProcessEngineConfiguration
+  public ActivitiEngineFixture() {
+    processEngine = ProcessEngineConfiguration
             .createStandaloneInMemProcessEngineConfiguration()
             .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
             .setJdbcUrl("jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000")
             .setJobExecutorActivate(true)
             .buildProcessEngine();
+  }
 
+  public ProcessEngine getTestProcessEngine() {
     return processEngine;
   }
 }

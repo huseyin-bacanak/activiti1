@@ -1,0 +1,14 @@
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = '6.1'
+    configFile = new File("$projectDir/conf/checkstyle/google_checks.xml");
+    ignoreFailures = ignoreFailuresInCheck
+}
+// produce html reports
+checkstyleMain << {
+
+    ant.xslt(in: reports.xml.destination,
+            style: new File("$projectDir/conf/checkstyle/checkstyle-noframes-sorted.xsl"),
+            out: new File(reports.xml.destination.parent, 'main.html'))
+}

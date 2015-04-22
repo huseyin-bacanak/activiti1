@@ -1,0 +1,25 @@
+apply plugin: 'jdepend'
+
+jdepend {
+    toolVersion = "2.9.1"
+    sourceSets = [sourceSets.main]
+    ignoreFailures = ignoreFailuresInCheck
+}
+
+jdependMain {
+    reports {
+        xml.enabled true
+        text.enabled false
+    }
+}
+
+task jdependReport(dependsOn: jdependMain, group: 'verification', description: 'Generates a HTML report after executing jdepend checks.') << {
+    ant.xslt(
+            in: "$reporting.baseDir/jdepend/main.xml",
+            style: "$projectDir/conf/jdepend/jdepend.xsl",
+            out:"$reporting.baseDir/jdepend/main.html")
+}
+
+check {
+    dependsOn += ['jdependReport']
+}

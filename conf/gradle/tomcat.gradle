@@ -1,0 +1,11 @@
+[ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
+
+[tomcatRun, tomcatRunWar, tomcatStop]*.stopPort = 8090
+[tomcatRun, tomcatRunWar, tomcatStop]*.stopKey = 'stfu'
+tomcatRunWar.contextPath = "${project.name}"
+tomcatRunWar.ajpPort = 8000
+
+if(checkBeforeRun.toBoolean()){
+    tomcatRunWar { dependsOn += ['check'] }
+}
+

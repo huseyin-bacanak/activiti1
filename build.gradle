@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
+        maven { url 'http://download.java.net/maven/2' }
+    }
+    dependencies {
+        classpath 'com.google.code.findbugs:jsr305:3.0.0'
+        classpath 'de.aaschmid.gradle.plugins:gradle-cpd-plugin:0.1'
+        classpath 'me.champeau.gradle:gradle-javadoc-hotfix-plugin:0.1'
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.2.4'
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
+    }
+}
+
+apply plugin: 'war'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'tomcat'
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-idea'
+
+ignoreFailuresInCheck=ignoreFailuresInCheck.toBoolean();
+
+if(cleanBeforeCompile.toBoolean()){
+    compileJava { dependsOn += ['clean'] }
+}
+
+apply from: "conf/gradle/dependencies.gradle"
+apply from: "conf/gradle/checkstyle.gradle"
+apply from: "conf/gradle/pmd.gradle"
+apply from: "conf/gradle/findbugs.gradle"
+apply from: "conf/gradle/jdepend.gradle"
+apply from: "conf/gradle/javadoc.gradle"
+apply from: "conf/gradle/tomcat.gradle"
+
+
+
+defaultTasks 'clean', 'check', 'build', 'javaDoc'
+description = 'activiti web ui'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url 'http://repo.spring.io/milestone/'}
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = projectGradleVersion
+}
+
+configurations {
+    runtime.exclude group: "org.slf4j", module: "log4j-over-slf4j.jar"
+}

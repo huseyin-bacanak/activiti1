@@ -1,0 +1,13 @@
+apply plugin: 'javadocHotfix'
+
+javadoc {
+    title = "$rootProject.name $version API"
+    source = sourceSets.main.allJava
+    options {
+        locale('en_US')
+        memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+        author = true
+        header = project.name
+        outputLevel = org.gradle.external.javadoc.JavadocOutputLevel.VERBOSE
+    }
+}

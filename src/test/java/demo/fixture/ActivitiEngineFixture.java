@@ -14,7 +14,7 @@ public class ActivitiEngineFixture {
     processEngine = ProcessEngineConfiguration
             .createStandaloneInMemProcessEngineConfiguration()
             .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
-            .setJdbcUrl("jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000")
+            .setJdbcUrl("jdbc:h2:mem:activiti")
             .setJobExecutorActivate(true)
             .buildProcessEngine();
   }

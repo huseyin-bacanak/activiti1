@@ -8,6 +8,9 @@ ext{
     activitiVersion = '5.17.0'
 }
 dependencies {
+    // groovy
+    compile 'org.codehaus.groovy:groovy-all:2.4.3'
+
     // logging
     compile "org.slf4j:slf4j-api:$slf4jVersion"
     compile "ch.qos.logback:logback-classic:$logbackVersion"

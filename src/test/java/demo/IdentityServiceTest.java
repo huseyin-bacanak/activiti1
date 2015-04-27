@@ -104,6 +104,7 @@ public class IdentityServiceTest {
             .createUserQuery()
             .memberOfGroup(TEST_GROUP_ID)
             .list();
+
     assertEquals(1, userList.size());
     assertEquals(TEST_USER_ID, userList.get(0).getId());
 
@@ -112,6 +113,7 @@ public class IdentityServiceTest {
             .createGroupQuery()
             .groupMember(TEST_USER_ID)
             .list();
+
     assertEquals(1, groupList.size());
     assertEquals(TEST_GROUP_ID, groupList.get(0).getId());
     assertEquals(TEST_GROUP_NAME, groupList.get(0).getName());

@@ -3,7 +3,7 @@ package demo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import demo.fixture.ActivitiEngineFixture;
+import fixture.ActivitiEngineFixture;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.ProcessEngineImpl;
 import org.activiti.engine.impl.db.DbSqlSession;
@@ -30,23 +30,11 @@ public class RepositoryServiceTest {
 
   @After
   public void tearDown() {
-    // clear tables between tests
-    CommandExecutor commandExecutor = ((ProcessEngineImpl)activitiEngineFixture.getTestProcessEngine())
-            .getProcessEngineConfiguration()
-            .getCommandExecutor();
-
-    CommandConfig config = new CommandConfig().transactionNotSupported();
-    commandExecutor.execute(config, new Command<Object>() {
-      public Object execute(CommandContext commandContext) {
-        DbSqlSession session = commandContext.getSession(DbSqlSession.class);
-        session.dbSchemaDrop();
-        return null;
-      }
-    });
+    activitiEngineFixture.clearDatabase();
   }
 
   @Test
-   public void repositoryServiceStartupTest() {
+   public void initializeRepositoryService() {
     assertNotNull(repositoryService);
   }
 
@@ -59,7 +47,7 @@ public class RepositoryServiceTest {
   }
 
   @Test
-  public void createDeploymentTest() {
+  public void createDeployment() {
     // Initially no deployments
     long numberOfProcessDefinitions = repositoryService
             .createProcessDefinitionQuery()
@@ -97,7 +85,7 @@ public class RepositoryServiceTest {
   }
 
   @Test
-  public void deleteDeploymentTest() {
+  public void deleteDeployment() {
     // Initially no deployments
     long numberOfProcessDefinitions = repositoryService
             .createProcessDefinitionQuery()
@@ -119,6 +107,7 @@ public class RepositoryServiceTest {
     // remove deployment
     repositoryService.deleteDeployment(deploymentId);
 
+    // again, we have zero deployment
     numberOfProcessDefinitions = repositoryService
             .createProcessDefinitionQuery()
             .count();

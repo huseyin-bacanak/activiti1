@@ -3,34 +3,46 @@ package demo;
 
 import static org.junit.Assert.assertEquals;
 
-import fixture.ActivitiEngineFixture;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
-import org.junit.After;
+import org.activiti.engine.test.ActivitiRule;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.List;
 
 public class IdentityServiceTest {
-  private ActivitiEngineFixture activitiEngineFixture;
+
+  @Rule
+  public final ActivitiRule activitiRule = new ActivitiRule("activiti.cfg-mem-fullhistory.xml");
+
   private IdentityService identityService;
 
   private static final String TEST_USER_ID = "jon.snow";
   private static final String TEST_GROUP_ID = "NW";
   private static final String TEST_GROUP_NAME = "Night's Watch";
 
+
+  /**
+   * Clean users and groups before tests.
+   */
   @Before
   public void setup() {
-    activitiEngineFixture = new ActivitiEngineFixture();
-    identityService  = activitiEngineFixture.getTestProcessEngine().getIdentityService();
-  }
+    //clear users and groups
+    identityService = activitiRule.getIdentityService();
+    List<User> users = identityService.createUserQuery().list();
+    for (User user:users) {
+      identityService.deleteUser(user.getId());
+    }
 
-  @After
-  public void tearDown() {
-    activitiEngineFixture.clearDatabase();
+    List<Group> groups = identityService.createGroupQuery().list();
+    for (Group group:groups) {
+      identityService.deleteGroup(group.getId());
+    }
+
   }
 
   @Test

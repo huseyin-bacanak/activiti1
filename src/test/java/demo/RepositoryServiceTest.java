@@ -3,28 +3,28 @@ package demo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import fixture.ActivitiEngineFixture;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.junit.After;
+import org.activiti.engine.test.ActivitiRule;
+import org.activiti.engine.test.Deployment;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class RepositoryServiceTest {
-  private ActivitiEngineFixture activitiEngineFixture;
+  /**
+   * The processEngine will be initialized by default with the activiti.cfg.xml resource
+   * on the classpath.
+   */
+  @Rule
+  public ActivitiRule activitiRule = new ActivitiRule();
+
   private RepositoryService repositoryService;
 
   @Before
   public void setup() {
-    activitiEngineFixture = new ActivitiEngineFixture();
-    repositoryService  = activitiEngineFixture.getTestProcessEngine().getRepositoryService();
-  }
-
-  @After
-  public void tearDown() {
-    activitiEngineFixture.clearDatabase();
+    repositoryService  = activitiRule.getRepositoryService();
   }
 
   @Test
@@ -41,29 +41,9 @@ public class RepositoryServiceTest {
   }
 
   @Test
+  @Deployment(resources = "processes/bookorder.bpmn20.xml")
   public void createDeployment() {
-    // Initially no deployments
     long numberOfProcessDefinitions = repositoryService
-            .createProcessDefinitionQuery()
-            .count();
-    assertEquals(0, numberOfProcessDefinitions);
-
-    // deploy book order process
-    // confirm book order process deployed successfully
-    String deploymentId =  repositoryService.createDeployment()
-            .addClasspathResource("processes/bookorder.bpmn20.xml")
-            .deploy()
-            .getId();
-
-    Deployment deployment  = repositoryService
-            .createDeploymentQuery()
-            .deploymentId(deploymentId)
-            .singleResult();
-
-    Assert.assertNotNull(deployment);
-    Assert.assertEquals(deploymentId, deployment.getId());
-
-    numberOfProcessDefinitions = repositoryService
             .createProcessDefinitionQuery()
             .count();
     assertEquals(1, numberOfProcessDefinitions);

@@ -3,14 +3,16 @@ package demo;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import fixture.ActivitiEngineFixture;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.test.ActivitiRule;
+import org.activiti.engine.test.Deployment;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -18,7 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 public class RuntimeServiceTest {
-  private ActivitiEngineFixture activitiEngineFixture;
+  @Rule
+  public ActivitiRule activitiRule = new ActivitiRule();
+
   private RuntimeService runtimeService;
   private RepositoryService repositoryService;
 
@@ -29,20 +33,12 @@ public class RuntimeServiceTest {
    */
   @Before
   public void setup() {
-    activitiEngineFixture = new ActivitiEngineFixture();
-    runtimeService  = activitiEngineFixture.getTestProcessEngine().getRuntimeService();
-    repositoryService = activitiEngineFixture.getTestProcessEngine().getRepositoryService();
-    repositoryService.createDeployment()
-            .addClasspathResource("processes/bookorder.bpmn20.xml")
-            .deploy();
-  }
-
-  @After
-  public void tearDown() {
-    activitiEngineFixture.clearDatabase();
+    runtimeService  = activitiRule.getRuntimeService();
+    repositoryService = activitiRule.getRepositoryService();
   }
 
   @Test
+  @Deployment(resources = "processes/bookorder.bpmn20.xml")
   public void startProcessInstance() {
     // confirm repository has only test process definition
     List<ProcessDefinition> pdList = repositoryService.createProcessDefinitionQuery().list();
@@ -58,6 +54,7 @@ public class RuntimeServiceTest {
   }
 
   @Test
+  @Deployment(resources = "processes/bookorder.bpmn20.xml")
   public void queryProcessInstance() {
     // create process instance of the test process definition.
     Map<String, Object> variableMap  = new HashMap<>();
@@ -78,6 +75,7 @@ public class RuntimeServiceTest {
   }
 
   @Test(expected = ActivitiException.class)
+  @Deployment(resources = "processes/bookorder.bpmn20.xml")
   public void startProcessInstanceWithoutRequiredVars() {
     // confirm repository has only test process definition
     List<ProcessDefinition> pdList = repositoryService.createProcessDefinitionQuery().list();

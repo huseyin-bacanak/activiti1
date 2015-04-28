@@ -8,7 +8,9 @@
         <startEvent id="startevent1" name="Start"/>
         <scriptTask id="scripttask1" name="Validate order" scriptFormat="groovy">
             <script>
-                out:print "validating order for isbn " + isbn + "\n";
+                System.out.println("\n"*3 + "="*40);
+                System.out.println("validating order for isbn " + isbn)
+                System.out.println("="*40 + "\n"*3);
             </script>
         </scriptTask>
         <sequenceFlow id="sequenceflow1" name="Validate order" sourceRef="startevent1" targetRef="scripttask1"/>

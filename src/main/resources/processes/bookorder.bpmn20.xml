@@ -1,24 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions
-        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-        targetNamespace="http://www.bpmnwithactiviti.org"
-        xmlns:activiti="http://activiti.org/bpmn">
-
-    <process id="bookorder" name="bookorder">
-        <startEvent id="startevent1" name="Start"/>
-        <scriptTask id="scripttask1" name="Validate order" scriptFormat="groovy">
-            <script>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.bpmnwithactiviti.org">
+  <process id="bookorder" name="bookorder" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <scriptTask id="scripttask1" name="Validate order" scriptFormat="groovy" activiti:autoStoreVariables="false">
+      <script>
                 System.out.println("\n"*3 + "="*40);
                 System.out.println("validating order for isbn " + isbn)
                 System.out.println("="*40 + "\n"*3);
             </script>
-        </scriptTask>
-        <sequenceFlow id="sequenceflow1" name="Validate order" sourceRef="startevent1" targetRef="scripttask1"/>
-        <userTask id="usertask1" name="Complete order" activiti:candidateGroups="sales">
-            <documentation>book order user task</documentation>
-        </userTask>
-        <sequenceFlow id="sequenceflow2" name="Sending to management" sourceRef="scripttask1" targetRef="usertask1"/>
-        <endEvent id="endevent1" name="End"/>
-        <sequenceFlow id="sequenceflow3" name="flow" sourceRef="usertask1" targetRef="endevent1"/>
-    </process>
+    </scriptTask>
+    <sequenceFlow id="sequenceflow1" name="Validate order" sourceRef="startevent1" targetRef="scripttask1"></sequenceFlow>
+    <userTask id="usertask1" name="Complete order" activiti:candidateGroups="sales">
+      <documentation>book order user task</documentation>
+    </userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow1" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow2" name="sending to management" sourceRef="scripttask1" targetRef="usertask1"></sequenceFlow>
+  </process>
+
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_bookorder">
+    <bpmndi:BPMNPlane bpmnElement="bookorder" id="BPMNPlane_bookorder">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="0.0" y="9.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="scripttask1" id="BPMNShape_scripttask1">
+        <omgdc:Bounds height="60.0" width="100.0" x="150.0" y="0.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="60.0" width="100.0" x="350.0" y="0.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="510.0" y="12.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow1" id="BPMNEdge_sequenceflow1">
+        <omgdi:waypoint x="35.0" y="26.0"></omgdi:waypoint>
+        <omgdi:waypoint x="42.0" y="30.0"></omgdi:waypoint>
+        <omgdi:waypoint x="42.0" y="30.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="30.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="13.0" width="100.0" x="45.0" y="26.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="450.0" y="30.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="29.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="250.0" y="30.0"></omgdi:waypoint>
+        <omgdi:waypoint x="350.0" y="30.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="39.0" width="100.0" x="260.0" y="30.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
 </definitions>

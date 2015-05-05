@@ -22,9 +22,9 @@ public class TaskServiceTest {
   @Rule
   public ActivitiRule activitiRule  = new ActivitiRule();
 
-  private static final String TEST_USER_ID = "donald.trump";
+  private static final String TEST_USER_ID = "frodo.baggins";
   private static final String TEST_GROUP_ID = "sales";
-  private static final String TEST_GROUP_NAME = "Sales Dept.";
+  private static final String TEST_GROUP_NAME = "The Fellowship of the Ring";
 
   @Test
   @Deployment(resources = {"processes/bookorder.bpmn20.xml"})

@@ -29,10 +29,6 @@ public class IdentityServiceTest {
   private static final String TEST_GROUP_NAME = "Night's Watch";
 
 
-  @BeforeClass
-  public static void init() throws SQLException{
-    Server.createWebServer("-web").start();
-  }
   /**
    * Clean users and groups before tests.
    */

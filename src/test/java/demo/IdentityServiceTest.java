@@ -7,11 +7,14 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.test.ActivitiRule;
+import org.h2.tools.Server;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class IdentityServiceTest {
@@ -26,11 +29,15 @@ public class IdentityServiceTest {
   private static final String TEST_GROUP_NAME = "Night's Watch";
 
 
+  @BeforeClass
+  public static void init() throws SQLException{
+    Server.createWebServer("-web").start();
+  }
   /**
    * Clean users and groups before tests.
    */
   @Before
-  public void setup() {
+  public void setup(){
     //clear users and groups
     identityService = activitiRule.getIdentityService();
     List<User> users = identityService.createUserQuery().list();

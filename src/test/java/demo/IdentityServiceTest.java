@@ -33,7 +33,7 @@ public class IdentityServiceTest {
    * Clean users and groups before tests.
    */
   @Before
-  public void setup(){
+  public void setup() {
     //clear users and groups
     identityService = activitiRule.getIdentityService();
     List<User> users = identityService.createUserQuery().list();

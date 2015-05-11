@@ -2,6 +2,7 @@ package demo;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
@@ -83,6 +84,6 @@ public class RuntimeServiceTest {
 
     ProcessInstance processInstance = runtimeService
             .startProcessInstanceByKey("bookorder");
-    assertNotNull(processInstance.getId());
+    fail();
   }
 }

@@ -49,11 +49,11 @@ public class HistoryServiceTest {
             .processInstanceId(processInstanceId)
             .singleResult();
 
-    assertEquals("startevent1", historicProcessInstance.getStartActivityId());
-    assertEquals("endevent1", historicProcessInstance.getEndActivityId());
-
     assertNotNull(historicProcessInstance);
     assertEquals(processInstanceId, historicProcessInstance.getId());
+
+    assertEquals("startevent1", historicProcessInstance.getStartActivityId());
+    assertEquals("endevent1", historicProcessInstance.getEndActivityId());
 
     // check timeline
     Date processStartTime = historicProcessInstance.getStartTime();
@@ -62,7 +62,6 @@ public class HistoryServiceTest {
 
     Date processEndTime = historicProcessInstance.getStartTime();
     assertTrue(processEndTime.after(beforeProcessCreatedTime));
-    assertTrue(processEndTime.before(afterProcessCompletedTime));
     assertTrue(processEndTime.before(afterProcessCompletedTime));
 
     assertTrue(historicProcessInstance.getDurationInMillis() > 0);
